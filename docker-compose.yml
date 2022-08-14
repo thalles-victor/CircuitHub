@@ -1,0 +1,34 @@
+version: "3.1"
+
+services:
+  database:
+    image: postgres
+    restart: always
+    container_name: "container_postgres"
+
+    networks:
+      - backing-services
+
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_DB= userdatabasepg
+      - POSTGRES_USER=usernamedb
+      - POSTGRES_PASSWORD=passwdconnecthere
+
+    ports: [ "5432:5432" ]
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSW: admin
+
+    networks:
+      - backing-services
+
+networks:
+  backing-services:
+    driver: bridge
